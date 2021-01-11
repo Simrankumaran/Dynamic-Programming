@@ -16,7 +16,7 @@ class Knapsack
             return knapSack(W,wt,val,n-1);
     } 
     
-    static void main(String args[]){
+    public static void main(String args[]){
         int values[]={1,2,3};
         int weight[]={4,5,1};
         int N=3;
