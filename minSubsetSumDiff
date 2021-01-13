@@ -1,0 +1,54 @@
+import java.util.*;
+public class minSubsetSumDiff {
+	public static int findMin(int a[], int n) {
+		int min=Integer.MAX_VALUE;
+		
+		//sum of all elements
+		int range=0; 
+		for (int i = 0; i <n; i++)
+			range += a[i];
+		//array to do bottom up approach DP
+		int t[][]=new int[n+1][range+1];
+		
+		//first row becomes zero. Can't make sum with zero elements
+		for (int i = 0; i <= range; i++)
+			t[0][i] = 0;
+		//first column becomes 1. Can make a sum of zero with any number of elements
+		for (int i = 0; i <= n; i++)
+			t[i][0] = 1;
+		
+		//filling up the matrix
+		for(int i=1;i<=n;i++) {
+			for(int j=1;j<=range;j++) {
+				if(a[i-1]<=j)
+					t[i][j]= t[i-1][j] + t[i-1][j-a[i-1]];
+				else
+					t[i][j]=t[i-1][j];
+			}
+		}
+		//A dynamic array to store all the elements in the last row of the matrix only halfway
+		Vector<Integer> v=new Vector<Integer>();
+		for(int i=0;i<=range;i++) {
+			if(t[n-1][i]==1) {
+				v.add(i);				
+			}			
+		}
+		//range-2s1
+		//using that formula to calculate the min diff
+		for(int i=0;i<v.size();i++) {
+			int val=2*v.get(i);
+			min=Math.min(min, range - val);
+		}
+		return min;
+		
+	}
+	public static void main (String[] args) 
+    {
+        int arr[] = {1,2,7};
+        int n = arr.length;
+        System.out.println ("The minimum difference between 2 sets is "
+                            + findMin(arr, n));
+     
+    }
+
+}
